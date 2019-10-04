@@ -13,9 +13,8 @@
   flex-flow: column;
 }
 
-.white {
+.hover {
   background-color: lightgray;
-  color: black;
 }
 
 .red {

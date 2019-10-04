@@ -1,6 +1,7 @@
 "use strict";
 (function() {
-	let red = true;
+	let moves = [];
+	let red = true;//Determines who is currently playing. Player Red or Not Red (Black).
 	function $(id) {
 		return document.getElementById(id);
 	}
@@ -8,6 +9,22 @@
 	window.onload = function () {
     makeBoard();
 		$("reset").addEventListener("click", function(){resetBoard()});
+		setHover();
+	}
+	function setHover () {
+		let board = $("board");
+			for (let i = 0; i < board.childElementCount; i++) {
+					board.childNodes[i].addEventListener("mouseenter", mouseToggle);
+					board.childNodes[i].addEventListener("mouseleave", mouseToggle);
+			}
+	}
+
+	function mouseToggle(e) {
+		let children = e.target.childNodes;
+		children.forEach(function(child, id, children){
+			console.log(child);
+			child.classList.toggle("hover");
+		});
 	}
 
 	function makeBoard() {
@@ -18,8 +35,7 @@
 			for (let j = 0; j < 6; j++) {
 				let square = document.createElement("div");
 				square.classList.add("square");
-				square.classList.add("white");
-				square.innerHTML = i*7 + j;
+				square.innerHTML = i*6 + j+1;
 				slot.appendChild(square);
 			}
 			slot.addEventListener("click", function(e){ makeMove(e)}, true);
@@ -35,6 +51,7 @@
   	}
 		red = true;
 		makeBoard();
+		setHover();
 	}
 
 	function makeMove(event) {
@@ -42,8 +59,7 @@
 		let slot = event.target.parentNode;
 		for (let i = slot.childElementCount - 1; i >= 0; i--) {
 			let child = slot.childNodes[i];
-			if(child.classList.contains("white")) {
-				child.classList.remove("white");
+			if(!(child.classList.contains("red") || child.classList.contains("black"))) {
 				if (red) {
 					child.classList.add("red");
 				} else {
