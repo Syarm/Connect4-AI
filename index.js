@@ -8,13 +8,18 @@
 	}
 
 	window.onload = function () {
-    makeBoard();
+    	makeBoard();
 		$("reset").addEventListener("click", function(){resetBoard()});
+		$("undo").addEventListener("click", function(){undoMove()});
 		setHover();
 	}
 
 	function undoMove() {
-		
+		if (moves.length > 0) {
+			let index = moves.pop();
+			let piece = getPiece(index);
+			piece.classList.remove("red", "black");
+		}
 	}
 
 	function sendMove() {
@@ -62,8 +67,8 @@
 	function resetBoard() {
 		let board = $("board");
 		while (board.firstChild) {
-    	board.removeChild(board.firstChild);
-  	}
+    		board.removeChild(board.firstChild);
+  		}
 		red = true;
 		makeBoard();
 		moves = [];
@@ -73,7 +78,6 @@
 
 	//Over here we will call gameCondition after the move is made.
 	function makeMove(event) {
-
 		let slot = event.target.parentNode;
 		for (let i = slot.childElementCount - 1; i >= 0; i--) {
 			let child = slot.childNodes[i];
