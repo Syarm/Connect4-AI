@@ -1,8 +1,11 @@
 "use strict";
 //Take a look at makeMove() && gameCondition();
 (function() {
-	let moves = [];
-	let red = true;//Determines who is currently playing. Player Red or Not Red (Black).
+	let moves;
+	let modelBoard;
+	let collumns = 7;
+	let rows = 6;
+	let red;//Determines who is currently playing. Player Red or Not Red (Black).
 	function $(id) {
 		return document.getElementById(id);
 	}
@@ -16,9 +19,12 @@
 
 	function undoMove() {
 		if (moves.length > 0) {
-			let index = moves.pop();
-			let piece = getPiece(index);
+			let slotIndex = moves.pop();
+			let pieceIndex = modelBoard[slotIndex].length - 1;
+			let piece = getPiece(slotIndex, pieceIndex);
 			piece.classList.remove("red", "black");
+			modelBoard[slotIndex].pop();
+			red = !red;
 		}
 	}
 
@@ -49,6 +55,12 @@
 	}
 
 	function makeBoard() {
+		moves = [];
+		modelBoard = [];
+		for (let i = 0; i < collumns; i ++) {
+			modelBoard.push([]);
+		}
+		red = true;
 		let board = $("board");
 		for (let i = 0; i < 7; i++) {
 			let slot = document.createElement("div");
@@ -59,7 +71,7 @@
 				square.innerHTML = i*6 + j;
 				slot.appendChild(square);
 			}
-			slot.addEventListener("click", function(e){ makeMove(e)}, true);
+			slot.addEventListener("click", function(e){ moveEvent(e)}, true);
 			board.appendChild(slot);
 		}
 	}
@@ -69,20 +81,24 @@
 		while (board.firstChild) {
     		board.removeChild(board.firstChild);
   		}
-		red = true;
 		makeBoard();
-		moves = [];
 		setHover();
 	}
 
 
+
 	//Over here we will call gameCondition after the move is made.
-	function makeMove(event) {
-		let slot = event.target.parentNode;
-		for (let i = slot.childElementCount - 1; i >= 0; i--) {
+	function moveEvent(event) {
+		makeMove(event.target.parentNode)
+	}
+
+	function makeMove(slot) {
+		for (let i = 0; i < slot.childElementCount; i++) {
 			let child = slot.childNodes[i];
 			if(!(child.classList.contains("red") || child.classList.contains("black"))) {
-				moves.push(getIndex(child));
+				let col = getSlotIndex(child)
+				moves.push(col);
+				modelBoard[col].push(red);
 				if (red) {
 					child.classList.add("red");
 				} else {
@@ -94,30 +110,20 @@
 		}
 	}
 
-	function getIndex(piece) {
+	function getSlotIndex(piece) {
 		let slot = piece.parentNode;
-		let yPos = 0;
-		for (let i = 0; i < slot.childNodes.length; i++) {
-			if (slot.childNodes[i]===piece) {
-				yPos = i;
-			}
-		}
-		let xPos = 0;
 		let board = slot.parentNode;
+		let xPos = 0;
 		for (let i = 0; i < board.childNodes.length; i++) {
 			if (board.childNodes[i]===slot) {
 				xPos = i;
 			}
 		}
-		return xPos*6 + yPos;
+		return xPos;
 	}
 
-	function getPiece(index) {
-		let yPos = index % 6;
-		let xPos = Math.floor(index / 6);
-		return $("board").childNodes[xPos].childNodes[yPos];
+	function getPiece(slotIndex, pieceIndex){
+		return $("board").childNodes[slotIndex].childNodes[pieceIndex];
 	}
-
-
 
 })();
