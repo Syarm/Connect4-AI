@@ -13,6 +13,10 @@
 		setHover();
 	}
 
+	function undoMove() {
+		
+	}
+
 	function sendMove() {
 
 	}
@@ -47,7 +51,7 @@
 			for (let j = 0; j < 6; j++) {
 				let square = document.createElement("div");
 				square.classList.add("square");
-				square.innerHTML = i*6 + j+1;
+				square.innerHTML = i*6 + j;
 				slot.appendChild(square);
 			}
 			slot.addEventListener("click", function(e){ makeMove(e)}, true);
@@ -87,11 +91,27 @@
 	}
 
 	function getIndex(piece) {
-		
+		let slot = piece.parentNode;
+		let yPos = 0;
+		for (let i = 0; i < slot.childNodes.length; i++) {
+			if (slot.childNodes[i]===piece) {
+				yPos = i;
+			}
+		}
+		let xPos = 0;
+		let board = slot.parentNode;
+		for (let i = 0; i < board.childNodes.length; i++) {
+			if (board.childNodes[i]===slot) {
+				xPos = i;
+			}
+		}
+		return xPos*6 + yPos;
 	}
 
 	function getPiece(index) {
-
+		let yPos = index % 6;
+		let xPos = Math.floor(index / 6);
+		return $("board").childNodes[xPos].childNodes[yPos];
 	}
 
 
