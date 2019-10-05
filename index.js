@@ -1,4 +1,5 @@
 "use strict";
+//Take a look at makeMove() && gameCondition();
 (function() {
 	let moves = [];
 	let red = true;//Determines who is currently playing. Player Red or Not Red (Black).
@@ -16,6 +17,9 @@
 
 	}
 
+	//We need to determine a good algorithm to determine when a 4 in a row is made.
+	//Ideally it is better than O(n^2)
+	//
 	function gameCondition() {
 
 	}
@@ -63,7 +67,7 @@
 	}
 
 
-
+	//Over here we will call gameCondition after the move is made.
 	function makeMove(event) {
 
 		let slot = event.target.parentNode;
