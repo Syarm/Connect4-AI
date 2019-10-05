@@ -11,6 +11,15 @@
 		$("reset").addEventListener("click", function(){resetBoard()});
 		setHover();
 	}
+
+	function sendMove() {
+
+	}
+
+	function gameCondition() {
+
+	}
+
 	function setHover () {
 		let board = $("board");
 			for (let i = 0; i < board.childElementCount; i++) {
@@ -22,7 +31,6 @@
 	function mouseToggle(e) {
 		let children = e.target.childNodes;
 		children.forEach(function(child, id, children){
-			console.log(child);
 			child.classList.toggle("hover");
 		});
 	}
@@ -41,7 +49,6 @@
 			slot.addEventListener("click", function(e){ makeMove(e)}, true);
 			board.appendChild(slot);
 		}
-		console.log("this ran");
 	}
 
 	function resetBoard() {
@@ -51,8 +58,11 @@
   	}
 		red = true;
 		makeBoard();
+		moves = [];
 		setHover();
 	}
+
+
 
 	function makeMove(event) {
 
@@ -60,6 +70,7 @@
 		for (let i = slot.childElementCount - 1; i >= 0; i--) {
 			let child = slot.childNodes[i];
 			if(!(child.classList.contains("red") || child.classList.contains("black"))) {
+				moves.push(getIndex(child));
 				if (red) {
 					child.classList.add("red");
 				} else {
@@ -69,6 +80,14 @@
 				return;
 			}
 		}
+	}
+
+	function getIndex(piece) {
+		
+	}
+
+	function getPiece(index) {
+
 	}
 
 
