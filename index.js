@@ -1,5 +1,9 @@
 "use strict";
 //Take a look at makeMove() && gameCondition();
+//Game will have 2 options. Local and Online
+//Local is this
+//Online will connect to the php server
+
 (function() {
 	let moves;
 	let modelBoard;
