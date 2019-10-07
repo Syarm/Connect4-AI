@@ -96,11 +96,11 @@
 		makeMove(event.target.parentNode)
 	}
 
-	function makeMove(slot) {
-		for (let i = 0; i < slot.childElementCount; i++) {
-			let child = slot.childNodes[i];
+	function makeMove(column) {
+		for (let i = 0; i < column.childElementCount; i++) {
+			let child = column.childNodes[i];
 			if(!(child.classList.contains("red") || child.classList.contains("black"))) {
-				let col = getSlotIndex(child)
+				let col = getColumnIndex(child)
 				moves.push(col);
 				modelBoard[col].push(red);
 				if (red) {
@@ -114,12 +114,12 @@
 		}
 	}
 
-	function getSlotIndex(piece) {
-		let slot = piece.parentNode;
-		let board = slot.parentNode;
+	function getColumnIndex(piece) {
+		let column = piece.parentNode;
+		let board = column.parentNode;
 		let xPos = 0;
 		for (let i = 0; i < board.childNodes.length; i++) {
-			if (board.childNodes[i]===slot) {
+			if (board.childNodes[i]===column) {
 				xPos = i;
 			}
 		}
