@@ -174,7 +174,8 @@
 			for (let j = 0; j < 6; j++) {
 				let square = document.createElement("div");
 				square.classList.add("square");
-				square.innerHTML = i*6 + j;
+				//square.innerHTML = i*6 + j;
+				// numbers for debugging
 				slot.appendChild(square);
 			}
 			slot.addEventListener("click", function(e){ moveEvent(e)}, true);

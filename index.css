@@ -1,6 +1,6 @@
 
-@import url('https://fonts.googleapis.com/css?family=Big+Shoulders+Text&display=swap');
-
+/*@import url('https://fonts.googleapis.com/css?family=Big+Shoulders+Text&display=swap');
+*/
 h1 {
   font-size: 52px;
   line-height: 1;
@@ -15,14 +15,15 @@ h1 {
 .square {
   width: 100%;
   height: 100%;
-  border-style: solid;
-  border-color: rgba(50, 50, 50);
 }
 
 .slot {
   width: 100%;
   height: 100%;
   display:flex;
+  border-style: solid;
+  border-color: rgba(50, 50, 50);
+  border-width: medium;
   align-items: flex-start;
   flex-flow: column-reverse;
 }
