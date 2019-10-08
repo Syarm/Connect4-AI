@@ -7,9 +7,10 @@
 (function() {
 	let moves;
 	let modelBoard;
-	let collumns = 7;
+	let columns = 7;
 	let rows = 6;
 	let red;//Determines who is currently playing. Player Red or Not Red (Black).
+	let winCnt = 4;
 	function $(id) {
 		return document.getElementById(id);
 	}
@@ -39,7 +40,108 @@
 	//We need to determine a good algorithm to determine when a 4 in a row is made.
 	//Ideally it is better than O(n^2)
 	//
-	function gameCondition() {
+	function gameCondition(red, col) {
+		let yPos = modelBoard[col].length - 1;
+		let xPos = col;
+		let piece = $("board").childNodes[xPos].childNodes[yPos];
+		let toCheck = null;
+
+		if (red) {
+			toCheck = "red";
+		} else {
+			toCheck = "black"
+		}
+
+		// Downward Check
+		let cnt = 0;
+		if (yPos > winCnt-2) {
+			for (let i = yPos; i >= 0; i--) {
+				if (getPiece(xPos, i).classList.contains(toCheck)) {
+					cnt++;
+					if (cnt===winCnt) alert(toCheck + " wins!!!!");
+				} else {
+					break;
+				}
+			}
+		}
+
+		// Horizontal Check
+		cnt = 1;
+		// left
+		for (let i = xPos-1; i >= 0; i--) {
+			if (modelBoard[i][yPos]!=null && getPiece(i, yPos).classList.contains(toCheck)) {
+				cnt++;
+				if (cnt===winCnt) alert(toCheck + " wins!!!!");
+			} else {
+				break;
+			}
+		}
+		// right
+		for (let i = xPos+1; i < columns; i++) {
+			if (modelBoard[i][yPos]!=null && getPiece(i, yPos).classList.contains(toCheck)) {
+				cnt++;
+				if (cnt===winCnt) alert(toCheck + " wins!!!!");
+			} else {
+				break;
+			}
+		}
+
+		// Top Left Check
+		cnt = 1;
+		let x = xPos - 1;
+		let y = yPos + 1;
+		// Top left
+		while (x >= 0 && y < rows) {
+			if (modelBoard[x][y]!=null && getPiece(x, y).classList.contains(toCheck)) {
+				x--;
+				y++;
+				if (cnt===winCnt) alert(toCheck + " wins!!!!");
+			} else {
+				break;
+			}
+		}
+		x = xPos + 1;
+		y = yPos - 1;
+		// Bottom right
+		while (x < columns && y >= 0) {
+			if (modelBoard[x][y]!=null && getPiece(x, y).classList.contains(toCheck)) {
+				cnt++;
+				x++;
+				y--;
+				if (cnt===winCnt) alert(toCheck + " wins!!!!");
+			} else {
+				break;
+			}
+		}
+
+		// Top Right Check
+		cnt = 1;
+		x = xPos + 1;
+		y = yPos + 1;
+		// Top right
+		while (x < columns && y < rows) {
+			if (modelBoard[x][y]!=null && getPiece(x, y).classList.contains(toCheck)) {
+				cnt++;
+				x++;
+				y++;
+				if (cnt===winCnt) alert(toCheck + " wins!!!!");
+			} else {
+				break;
+			}
+		}
+		x = xPos - 1;
+		y = yPos - 1;
+		// Bottom left
+		while (x >= 0 && y >= 0) {
+			if (modelBoard[x][y]!=null && getPiece(x, y).classList.contains(toCheck)) {
+				cnt++;
+				x--;
+				y--;
+				if (cnt===winCnt) alert(toCheck + " wins!!!!");
+			} else {
+				break;
+			}
+		}
 
 	}
 
@@ -61,7 +163,7 @@
 	function makeBoard() {
 		moves = [];
 		modelBoard = [];
-		for (let i = 0; i < collumns; i ++) {
+		for (let i = 0; i < columns; i ++) {
 			modelBoard.push([]);
 		}
 		red = true;
@@ -108,6 +210,7 @@
 				} else {
 					child.classList.add("black");
 				}
+				gameCondition(red, col);
 				red = !red;
 				return;
 			}
@@ -126,8 +229,8 @@
 		return xPos;
 	}
 
-	function getPiece(slotIndex, pieceIndex){
-		return $("board").childNodes[slotIndex].childNodes[pieceIndex];
+	function getPiece(xPos, yPos){
+		return $("board").childNodes[xPos].childNodes[yPos];
 	}
 
 })();
