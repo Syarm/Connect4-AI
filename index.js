@@ -178,7 +178,7 @@
 				// numbers for debugging
 				slot.appendChild(square);
 			}
-			slot.addEventListener("click", function(e){ moveEvent(e)}, true);
+			slot.addEventListener("click", function(e){ moveEvent(e)});
 			board.appendChild(slot);
 		}
 	}
@@ -196,7 +196,11 @@
 
 	//Over here we will call gameCondition after the move is made.
 	function moveEvent(event) {
-		makeMove(event.target.parentNode)
+		let collumn = event.target;
+		if(collumn.classList.contains("square")) {
+			collumn = collumn.parentNode;
+		}
+		makeMove(collumn);
 	}
 
 	function makeMove(column) {
